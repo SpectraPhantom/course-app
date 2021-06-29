@@ -11,6 +11,6 @@ public interface UserRepository extends CrudRepository<User,Long> {
 
     User findUserByUsername(String username);
 
-    @Query(value = "select u.name from user u where u.id in (:pIdList)",nativeQuery = true)
+    @Query("select u.username from User u where u.id in (:pIdList)")
     List<String> findByIdList(@Param("pIdList") List<Long> idList);
 }

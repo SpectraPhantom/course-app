@@ -5,4 +5,85 @@
             <button (click)="signOut()" class="btn btn-danger">Logout</button>
         </div>
     </div>
+    <!--Add user-->
+    <div class="row">
+        <div class="col-md-6 text-center text-light mt-5">
+            <h3 class="mb-4">Add user</h3>
+            <form [formGroup]="userForm" (ngSubmit)="addUser()">
+                <div class="form-group">
+                    <label for="username">Username</label>
+                    <input type="text" class="form-control w-50 mt-2" formControlName="username" id="username" autocomplete="off">
+                    <div class="error" *ngIf="userForm.controls['username'].hasError('required') && userForm.controls['username'].touched">Username is required</div>
+                </div>
+                <div class="form-group">
+                    <label for="pwd">Password</label>
+                    <input type="password" class="form-control w-50 mt-2" formControlName="password" id="pwd" autocomplete="off">
+                    <div class="error" *ngIf="userForm.controls['password'].hasError('required') && userForm.controls['password'].touched">Password is required</div>
+                </div>
+                <div class="form-group">
+                    <label for="role">Role</label>
+                    <select class="form-control w-50 mt-2" formControlName="role"> 
+                        <option *ngFor="let item of keys()" [value]='item'>
+                            {{item}}
+                        </option>
+                    </select>
+                </div>
+                <button class="btn btn-success mt-3" [disabled]="userForm.invalid">Add</button>
+            </form>
+        </div>
+        <div class="col-md-6 text-center text-light mt-5">
+            <table class="table table-responsive text-light">
+                <thead>
+                    <th>ID</th>
+                    <th>Name</th>
+                    <th>Trainer Name</th>
+                    <th>Term Course</th>
+                    <th>Enrollments</th>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let item of courseList;index as id">
+                        <th scope="row">{{id+1}}</th>
+                        <td>{{item.name}}</td>
+                        <td>{{item.trainerName}}</td>
+                        <td>
+                            <select class="form-select" aria-label="Choose term of Course">
+                        <option *ngFor="let term of item.termList" [value]="term">
+                            {{term}}
+                        </option>
+                    </select>
+                        </td>
+                        <td>
+                            <button class="btn btn-dark" (click)="findStudentsOfCourse(item.id)">See enrollments</button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <!---->
+    <!--Add course-->
+    <div class="col-md-6 text-center text-light mt-5">
+        <div class="row">
+            <h3 class="mb-4">Add course</h3>
+            <form [formGroup]="courseForm" (ngSubmit)="addCourse()">
+                <div class="form-group">
+                    <label for="name">Course name</label>
+                    <input type="text" class="form-control w-50 mt-2" formControlName="name" id="name" autocomplete="off">
+                    <div class="error" *ngIf="courseForm.controls['name'].hasError('required') && courseForm.controls['name'].touched">Course name is required</div>
+                </div>
+                <div class="form-group">
+                    <label for="trainerName">Trainer name</label>
+                    <input type="text" class="form-control w-50 mt-2" formControlName="trainerName" id="trainerName" autocomplete="off">
+                    <div class="error" *ngIf="courseForm.controls['trainerName'].hasError('required') && courseForm.controls['trainerName'].touched">Trainer name is required</div>
+                </div>
+                <div class="form-group" id="terms">
+                    <label for="termList">Choose term of course</label>
+                    <input type="text" class="form-control w-50 mt-2" formControlName="termList" id="termList">
+                    <div class="error " *ngIf="courseForm.controls['termList'].hasError( 'required') && courseForm.controls['termList'].touched ">Term is required</div>
+                </div>
+                <button class="btn btn-success mt-3 " [disabled]="courseForm.invalid ">Add</button>
+            </form>
+        </div>
+    </div>
+    <!---->
 </div>

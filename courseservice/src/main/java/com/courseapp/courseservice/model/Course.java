@@ -24,6 +24,6 @@ public class Course implements Serializable {
     private String trainerName;
 
     @ElementCollection
-    @JsonFormat(shape = JsonFormat.Shape.STRING,pattern = "yyyy-MM-dd")
+    @JsonFormat(shape = JsonFormat.Shape.STRING,pattern = "yyyy-MM-dd",with = JsonFormat.Feature.ACCEPT_SINGLE_VALUE_AS_ARRAY)
     private List<LocalDate> termList=new ArrayList<>();
 }

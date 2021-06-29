@@ -1,5 +1,13 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, TemplateRef } from '@angular/core';
 import { Router } from '@angular/router';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { UserService } from 'src/app/services/user.service';
+import { User } from 'src/app/models/User';
+import { HttpErrorResponse } from '@angular/common/http';
+import { Role } from 'src/app/models/Role';
+import { CourseService } from 'src/app/services/course.service';
+import { Course } from 'src/app/models/Course';
+import flatpickr from "flatpickr";
 
 @Component({
   selector: 'app-admin',
@@ -8,13 +16,92 @@ import { Router } from '@angular/router';
 })
 export class AdminComponent implements OnInit {
 
-  constructor(private router:Router) { }
+  userForm: FormGroup;
+  courseForm: FormGroup;
+  courseList: Array<Course>;
+  todayDate: Date;
+  myArray:Array<Date>;
 
-  ngOnInit(): void {
+  role = Role;
+  keys(): Array<string> {
+    var keys = Object.keys(this.role);
+    return keys.slice(keys.length / 2);
   }
 
-  signOut(){
+  constructor(private formBuilder: FormBuilder, private router: Router, private userService: UserService, private courseService: CourseService) { }
+
+  addUser() {
+    console.log(this.userForm.value);
+    if (this.userForm.invalid) {
+      return;
+    }
+    this.userService.addUser(this.userForm.value).subscribe(
+      (response: User) => {
+        console.log(response);
+        alert("User added!");
+      },
+      (error: HttpErrorResponse) => {
+        alert(error.message);
+      }
+    )
+  }
+
+  addCourse() {
+    console.log(this.courseForm.value);
+    var datesAsString=this.courseForm.controls['termList'].value;
+    datesAsString=datesAsString.replace(" ","").split(",");
+    console.log(datesAsString);
+    this.courseForm.controls['termList'].setValue(datesAsString);
+    if (this.courseForm.invalid) {
+      return;
+    }
+    this.courseService.addCourse(this.courseForm.value).subscribe(
+      (response: Course) => {
+        console.log(response);
+        alert("Course added!");
+        this.findCourses();
+      },
+      (error: HttpErrorResponse) => {
+        alert(error.message);
+      }
+    )
+  }
+
+  findCourses() {
+    this.courseService.getCourses().subscribe(data => {
+      this.courseList = data;
+    })
+  }
+
+  findStudentsOfCourse(courseId: number){
+    this.courseService.findStudentsOfCourse(courseId).subscribe(data=>{
+      alert(data);
+    })
+  }
+
+  signOut() {
     this.router.navigate([""]);
   }
 
+  ngOnInit() {
+
+    flatpickr("#termList", {
+      minDate: "today",
+      mode: "multiple",
+    });
+
+    this.userForm = this.formBuilder.group({
+      username: ['', Validators.compose([Validators.required])],
+      password: ['', Validators.required],
+      role: ['', Validators.required]
+    });
+
+    this.courseForm = this.formBuilder.group({
+      name: ['', Validators.compose([Validators.required])],
+      trainerName: ['', Validators.required],
+      termList: ['', Validators.required]
+    });
+
+    this.findCourses();
+  }
 }

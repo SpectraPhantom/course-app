@@ -5,8 +5,10 @@ import com.courseapp.courseservice.model.Course;
 import com.courseapp.courseservice.model.Enrollment;
 import com.courseapp.courseservice.services.CourseService;
 import org.springframework.http.HttpStatus;
+import org.springframework.util.CollectionUtils;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -34,11 +36,11 @@ public class CourseController {
         return courseService.saveCourse(course);
     }
 
-    @GetMapping("/{trainername}")
-    @ResponseStatus(HttpStatus.OK)
-    public List<Course> trainerCourses(@PathVariable String trainername){
-        return courseService.trainerCourses(trainername);
-    }
+//    @GetMapping("/{trainername}")
+//    @ResponseStatus(HttpStatus.OK)
+//    public List<Course> trainerCourses(@PathVariable String trainername){
+//        return courseService.trainerCourses(trainername);
+//    }
 
     @PostMapping("/enroll")
     @ResponseStatus(HttpStatus.CREATED)
@@ -50,8 +52,10 @@ public class CourseController {
     @GetMapping("/{courseId}")
     @ResponseStatus(HttpStatus.OK)
     public List<String> findStudentsOfCourse(@PathVariable Long courseId){
+
         List<Enrollment> enrollments=courseService.findAllByCourseId(courseId);
         List<Long> userIdList=enrollments.parallelStream().map(Enrollment::getUserId).collect(Collectors.toList());
-        return userFeignClient.getUserNames(userIdList);
+        List<String> students=userFeignClient.getUserNames(userIdList);
+        return students;
     }
 }

@@ -1,0 +1,15 @@
+input {
+    display: block;
+    margin: 0 auto;
+    text-align: center;
+}
+
+select {
+    display: block;
+    margin: 0 auto;
+    text-align: center;
+}
+
+.t1 {
+    margin-left: 10px;
+}

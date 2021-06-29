@@ -3,6 +3,8 @@ import { Router } from '@angular/router';
 import { Course } from 'src/app/models/Course';
 import { CourseService } from 'src/app/services/course.service';
 import {Enrollment} from 'src/app/models/Enrollment';
+import { HttpErrorResponse } from '@angular/common/http';
+import { UserService } from 'src/app/services/user.service';
 
 @Component({
   selector: 'app-user',
@@ -12,22 +14,13 @@ import {Enrollment} from 'src/app/models/Enrollment';
 export class UserComponent implements OnInit {
 
   courseList:Array<Course>
-  errorMessage:String
-  infoMessage:String
+  userId:Number;
 
-  constructor(private router:Router,private courseService:CourseService) { }
+  constructor(private router:Router,private courseService:CourseService,private userService:UserService) { }
 
   ngOnInit(): void {
     this.findCourses();
-  }
-
-  getLogin(){
-    let jwt=window.sessionStorage.getItem('token');
-    let jwtData = jwt.split('.')[1];
-    let decodedJwtJsonData = window.atob(jwtData);
-    let decodedJwtData = JSON.parse(decodedJwtJsonData);
-    let username = decodedJwtData.user_name;
-    return username;
+    this.getUserId();
   }
 
   signOut(){
@@ -40,16 +33,35 @@ export class UserComponent implements OnInit {
     })
   }
 
+  getUserId(){
+    this.userService.getUserInfo().subscribe(data=>{
+      console.log(data.id);
+      this.userId=data.id;
+    })
+  }
+
+  getLogin(){
+    let jwt=window.sessionStorage.getItem('token');
+    let jwtData = jwt.split('.')[1];
+    let decodedJwtJsonData = window.atob(jwtData);
+    let decodedJwtData = JSON.parse(decodedJwtJsonData);
+    let username = decodedJwtData.user_name;
+    return username;
+  }
+
   enroll(course:Course){
     var enrollment=new Enrollment();
     enrollment.course=course;
     enrollment.userName=this.getLogin();
+    enrollment.userId=this.userId;
 
     this.courseService.enroll(enrollment).subscribe(data=>{
-      this.infoMessage="Successfully enrolled!";
-    },err=>{
-      this.errorMessage="Something goes wrong ;(";
-    });
+      alert("Successfully enrolled!");
+    },
+    (error:HttpErrorResponse)=>{
+      alert(error.message);
+    }
+    )
   }
 
 }
