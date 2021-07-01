@@ -1,6 +1,7 @@
 import { HttpParams } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Meta } from '@angular/platform-browser';
 import { Router } from '@angular/router';
 import {LoginService} from 'src/app/services/login.service'
 
@@ -15,7 +16,9 @@ export class LoginComponent implements OnInit {
   loginForm: FormGroup;
   invalidLogin: boolean = false;
 
-  constructor(private formBuilder: FormBuilder, private router: Router, private loginService: LoginService) { }
+  constructor(private formBuilder: FormBuilder, private router: Router, private loginService: LoginService,private meta:Meta) { 
+    this.meta.addTag({name: "viewport",content: "width=device-width, initial-scale=1, shrink-to-fit=no"})
+  }
 
   onSubmit() {
     if (this.loginForm.invalid) {

@@ -19,42 +19,28 @@ public class UserController {
         this.userService = userService;
     }
 
-    @GetMapping("/")
-    public String login(){
-        return "authenticated sucessfuly";
-    }
-
     @GetMapping("/{username}")
     @ResponseStatus(HttpStatus.OK)
-    public User getUserByUsername(@PathVariable String username){
+    public User getUserByUsername(@PathVariable String username) {
         return userService.findUserByUsername(username);
     }
 
     @GetMapping()
     @ResponseStatus(HttpStatus.OK)
-    public List<User> getAllUsers(){
+    public List<User> getAllUsers() {
         return userService.getAllUsers();
     }
 
     @PostMapping()
-    public User createNewUser(@RequestBody User user){
+    @ResponseStatus(HttpStatus.CREATED)
+    public User createNewUser(@RequestBody User user) {
         return userService.createNewUser(user);
     }
 
 
-    @GetMapping("/login")
-    public ResponseEntity<?> getUser(Principal principal){
-        //Principal principal = request.getUserPrincipal();
-        if(principal == null || principal.getName() == null){
-            //This means; logout will be successful. login?logout
-            return new ResponseEntity<>(HttpStatus.OK);
-        }
-        //username = principal.getName()
-        return ResponseEntity.ok(userService.findUserByUsername(principal.getName()));
-    }
-
     @PostMapping("/names")
-    public List<String> getNamesOfUsers(@RequestBody List<Long> idList){
+    @ResponseStatus(HttpStatus.CREATED)
+    public List<String> getNamesOfUsers(@RequestBody List<Long> idList) {
         return userService.findUsers(idList);
     }
 

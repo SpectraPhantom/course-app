@@ -1,12 +1,15 @@
 <div class="container">
     <div class="row">
-        <div class="col-md-6 offset-3 text-center text-light mt-5">
+        <div class="col-md-6 offset-md-3 text-center text-light mt-5">
             <h1>Welcome {{getLogin()}}</h1>
             <button (click)="signOut()" class="btn btn-danger">Logout</button>
         </div>
     </div>
     <div class="row">
-        <div class="col-md-6 offset-3 text-center text-light mt-5">
+        <div class="col-md-6 offset-md-3 text-center text-light mt-5">
+            <div class="col-sm-6 offset-sm-3">
+                <input type="text" class="form-control mb-5" placeholder="Search by Trainer Name..." [(ngModel)]="searchValue">
+            </div>
             <table class="table table-responsive text-light">
                 <thead>
                     <th>ID</th>
@@ -16,7 +19,7 @@
                     <th>Enroll</th>
                 </thead>
                 <tbody>
-                    <tr *ngFor="let item of courseList;index as id">
+                    <tr *ngFor="let item of courseList | filter:searchValue ;index as id">
                         <th scope="row">{{id+1}}</th>
                         <td>{{item.name}}</td>
                         <td>{{item.trainerName}}</td>

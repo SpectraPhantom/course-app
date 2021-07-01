@@ -29,12 +29,14 @@
                         "styles": [
                             "src/styles.css",
                             "node_modules/bootstrap/dist/css/bootstrap.min.css",
-                            "node_modules/flatpickr/dist/flatpickr.min.css"
+                            "node_modules/flatpickr/dist/flatpickr.min.css",
+                            "node_modules/bootstrap-table/dist/bootstrap-table.min.css"
                         ],
                         "scripts": [
                             "node_modules/jquery/dist/jquery.min.js",
                             "node_modules/bootstrap/dist/js/bootstrap.js",
-                            "node_modules/flatpickr/dist/flatpickr.min.js"
+                            "node_modules/flatpickr/dist/flatpickr.min.js",
+                            "node_modules/bootstrap-table/dist/bootstrap-table.min.js"
                         ]
                     },
                     "configurations": {

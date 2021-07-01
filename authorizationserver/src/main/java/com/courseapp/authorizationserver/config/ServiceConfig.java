@@ -7,9 +7,9 @@ import org.springframework.context.annotation.Configuration;
 public class ServiceConfig {
 
     @Value("${signing.key}")
-    private String jwtSigningKey="";
+    private String jwtSigningKey = "";
 
-    public String getJwtSigningKey(){
+    public String getJwtSigningKey() {
         return jwtSigningKey;
     }
 }

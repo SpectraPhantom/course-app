@@ -25,7 +25,7 @@ public class WebSecurityConfigurer extends WebSecurityConfigurerAdapter {
         this.userSecurityService = userSecurityService;
     }
 
-    private BCryptPasswordEncoder passwordEncoder(){
+    private BCryptPasswordEncoder passwordEncoder() {
         return passwordConfig.passwordEncoder();
     }
 

@@ -30,8 +30,8 @@ public class UserSecurityService implements UserDetailsService {
             log.warn("Username {} not found", username);
             throw new UsernameNotFoundException("Username: " + username + " not found!");
         }
-        Set<GrantedAuthority> authorites=new HashSet<>();
+        Set<GrantedAuthority> authorites = new HashSet<>();
         authorites.add(new SimpleGrantedAuthority(user.getRole().name()));
-        return new org.springframework.security.core.userdetails.User(username,user.getPassword(),authorites);
+        return new org.springframework.security.core.userdetails.User(username, user.getPassword(), authorites);
     }
 }

@@ -28,12 +28,11 @@ public class CourseServiceImpl implements CourseService {
 
     @Override
     public Course saveCourse(Course course) {
-        Course localCourse=courseRepository.findByName(course.getName());
-        if(localCourse!=null){
-            log.info("Course with this name: {} already exists!",course.getName());
-        }
-        else{
-            localCourse=courseRepository.save(course);
+        Course localCourse = courseRepository.findByName(course.getName());
+        if (localCourse != null) {
+            log.info("Course with this name: {} already exists!", course.getName());
+        } else {
+            localCourse = courseRepository.save(course);
         }
         return localCourse;
     }

@@ -1,6 +1,6 @@
 <div class="container">
     <div class="row">
-        <div class="col-md-6 offset-3 text-center text-light mt-5">
+        <div class="col-md-6 offset-md-3 text-center text-light mt-5">
             <h1>Welcome Admin!</h1>
             <button (click)="signOut()" class="btn btn-danger">Logout</button>
         </div>
@@ -53,13 +53,31 @@
                     </select>
                         </td>
                         <td>
-                            <button class="btn btn-dark" (click)="findStudentsOfCourse(item.id)">See enrollments</button>
+                            <button type="button" class="btn btn-dark" data-bs-toggle="modal" data-bs-target="#exampleModal" (click)="findStudentsOfCourse(item.id)">See enrollments</button>
                         </td>
                     </tr>
                 </tbody>
             </table>
         </div>
     </div>
+    <!-- Modal enrollments -->
+    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">List of students</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    {{userList}}
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <!---->
     <!--Add course-->
     <div class="col-md-6 text-center text-light mt-5">

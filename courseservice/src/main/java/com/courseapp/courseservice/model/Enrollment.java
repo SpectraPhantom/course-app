@@ -16,7 +16,7 @@ public class Enrollment implements Serializable {
     private Long id;
 
     @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "course_id",referencedColumnName = "id")
+    @JoinColumn(name = "course_id", referencedColumnName = "id")
     private Course course;
 
     private Long userId;

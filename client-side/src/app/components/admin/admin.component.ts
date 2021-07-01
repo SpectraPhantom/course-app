@@ -8,7 +8,7 @@ import { Role } from 'src/app/models/Role';
 import { CourseService } from 'src/app/services/course.service';
 import { Course } from 'src/app/models/Course';
 import flatpickr from "flatpickr";
-
+import { Meta } from '@angular/platform-browser';
 @Component({
   selector: 'app-admin',
   templateUrl: './admin.component.html',
@@ -20,7 +20,7 @@ export class AdminComponent implements OnInit {
   courseForm: FormGroup;
   courseList: Array<Course>;
   todayDate: Date;
-  myArray:Array<Date>;
+  userList:Array<String>;
 
   role = Role;
   keys(): Array<string> {
@@ -28,7 +28,10 @@ export class AdminComponent implements OnInit {
     return keys.slice(keys.length / 2);
   }
 
-  constructor(private formBuilder: FormBuilder, private router: Router, private userService: UserService, private courseService: CourseService) { }
+  constructor(private formBuilder: FormBuilder, private router: Router, private userService: UserService, 
+    private courseService: CourseService,private meta:Meta) { 
+      this.meta.addTag({name: "viewport",content: "width=device-width, initial-scale=1, shrink-to-fit=no"})
+    }
 
   addUser() {
     console.log(this.userForm.value);
@@ -75,7 +78,7 @@ export class AdminComponent implements OnInit {
 
   findStudentsOfCourse(courseId: number){
     this.courseService.findStudentsOfCourse(courseId).subscribe(data=>{
-      alert(data);
+      this.userList=data;
     })
   }
 

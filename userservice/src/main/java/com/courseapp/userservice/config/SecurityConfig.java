@@ -10,16 +10,10 @@ import javax.ws.rs.HttpMethod;
 @SuppressWarnings("deprecation")
 public class SecurityConfig extends ResourceServerConfigurerAdapter {
 
-    private static final String[] PUBLIC_MATCHERS = {
-            "users/names/**"
-    };
-
     @Override
     public void configure(HttpSecurity http) throws Exception {
         http.cors().and().csrf().disable()
                 .authorizeRequests()
-                .antMatchers(PUBLIC_MATCHERS)
-                .permitAll()
                 .anyRequest()
                 .authenticated();
     }

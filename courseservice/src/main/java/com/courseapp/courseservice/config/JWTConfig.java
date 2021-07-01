@@ -13,14 +13,14 @@ import org.springframework.security.oauth2.provider.token.store.JwtTokenStore;
 public class JWTConfig {
 
     @Bean
-    public TokenStore tokenStore(){
+    public TokenStore tokenStore() {
         return new JwtTokenStore(jwtAccessTokenConverter());
     }
 
     @Bean
     @Primary
-    public DefaultTokenServices tokenServices(){
-        DefaultTokenServices defaultTokenServices=new DefaultTokenServices();
+    public DefaultTokenServices tokenServices() {
+        DefaultTokenServices defaultTokenServices = new DefaultTokenServices();
         defaultTokenServices.setTokenStore(tokenStore());
         defaultTokenServices.setSupportRefreshToken(true);
 
@@ -28,8 +28,8 @@ public class JWTConfig {
     }
 
     @Bean
-    public JwtAccessTokenConverter jwtAccessTokenConverter(){
-        JwtAccessTokenConverter converter=new JwtAccessTokenConverter();
+    public JwtAccessTokenConverter jwtAccessTokenConverter() {
+        JwtAccessTokenConverter converter = new JwtAccessTokenConverter();
         converter.setSigningKey("345345fsdgsf5345");
 
         return converter;

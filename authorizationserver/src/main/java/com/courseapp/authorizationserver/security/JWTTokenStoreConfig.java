@@ -21,14 +21,14 @@ public class JWTTokenStoreConfig {
     }
 
     @Bean
-    public TokenStore tokenStore(){
+    public TokenStore tokenStore() {
         return new JwtTokenStore(jwtAccessTokenConverter());
     }
 
     @Bean
     @Primary
-    public DefaultTokenServices tokenServices(){
-        DefaultTokenServices defaultTokenServices=new DefaultTokenServices();
+    public DefaultTokenServices tokenServices() {
+        DefaultTokenServices defaultTokenServices = new DefaultTokenServices();
         defaultTokenServices.setTokenStore(tokenStore());
         defaultTokenServices.setSupportRefreshToken(true);
 
@@ -36,8 +36,8 @@ public class JWTTokenStoreConfig {
     }
 
     @Bean
-    public JwtAccessTokenConverter jwtAccessTokenConverter(){
-        JwtAccessTokenConverter converter=new JwtAccessTokenConverter();
+    public JwtAccessTokenConverter jwtAccessTokenConverter() {
+        JwtAccessTokenConverter converter = new JwtAccessTokenConverter();
         converter.setSigningKey(serviceConfig.getJwtSigningKey());
 
         return converter;
@@ -45,7 +45,7 @@ public class JWTTokenStoreConfig {
 
     @Bean
     @Primary
-    public TokenEnhancer jwtTokenEnhancer(){
+    public TokenEnhancer jwtTokenEnhancer() {
         return new JWTTokenEnhancer();
     }
 }

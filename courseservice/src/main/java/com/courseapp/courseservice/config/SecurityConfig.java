@@ -8,16 +8,10 @@ import org.springframework.security.oauth2.config.annotation.web.configuration.R
 @SuppressWarnings("deprecation")
 public class SecurityConfig extends ResourceServerConfigurerAdapter {
 
-    private static final String[] PUBLIC_MATCHERS = {
-
-    };
-
     @Override
     public void configure(HttpSecurity http) throws Exception {
         http.cors().and().csrf().disable()
                 .authorizeRequests()
-                .antMatchers(PUBLIC_MATCHERS)
-                .permitAll()
                 .anyRequest()
                 .authenticated();
     }
