@@ -14,8 +14,6 @@ export class AuthService {
 
         const token = JSON.parse(sessionStorage.getItem('token')).access_token;
 
-        console.log(token);
-
         const helper = new JwtHelperService();
 
         return !helper.isTokenExpired(token);

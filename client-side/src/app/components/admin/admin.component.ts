@@ -1,6 +1,6 @@
 import { Component, OnInit, TemplateRef } from '@angular/core';
 import { Router } from '@angular/router';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { AbstractControl, FormBuilder, FormGroup, ValidationErrors, ValidatorFn, Validators } from '@angular/forms';
 import { UserService } from 'src/app/services/user.service';
 import { User } from 'src/app/models/User';
 import { HttpErrorResponse } from '@angular/common/http';
@@ -20,7 +20,9 @@ export class AdminComponent implements OnInit {
   courseForm: FormGroup;
   courseList: Array<Course>;
   todayDate: Date;
-  userList:Array<String>;
+  userList: Array<String>;
+  userName:any;
+
 
   role = Role;
   keys(): Array<string> {
@@ -28,16 +30,18 @@ export class AdminComponent implements OnInit {
     return keys.slice(keys.length / 2);
   }
 
-  constructor(private formBuilder: FormBuilder, private router: Router, private userService: UserService, 
-    private courseService: CourseService,private meta:Meta) { 
-      this.meta.addTag({name: "viewport",content: "width=device-width, initial-scale=1, shrink-to-fit=no"})
-    }
+  constructor(private formBuilder: FormBuilder, private router: Router, private userService: UserService,
+    private courseService: CourseService, private meta: Meta) {
+    this.meta.addTag({ name: "viewport", content: "width=device-width, initial-scale=1, shrink-to-fit=no" })
+  }
+
+
 
   addUser() {
-    console.log(this.userForm.value);
     if (this.userForm.invalid) {
       return;
     }
+    let username=this.userForm.controls['username'].value;
     this.userService.addUser(this.userForm.value).subscribe(
       (response: User) => {
         console.log(response);
@@ -51,8 +55,8 @@ export class AdminComponent implements OnInit {
 
   addCourse() {
     console.log(this.courseForm.value);
-    var datesAsString=this.courseForm.controls['termList'].value;
-    datesAsString=datesAsString.replace(" ","").split(",");
+    var datesAsString = this.courseForm.controls['termList'].value;
+    datesAsString = datesAsString.replace(" ", "").split(",");
     console.log(datesAsString);
     this.courseForm.controls['termList'].setValue(datesAsString);
     if (this.courseForm.invalid) {
@@ -76,35 +80,36 @@ export class AdminComponent implements OnInit {
     })
   }
 
-  findStudentsOfCourse(courseId: number){
-    this.courseService.findStudentsOfCourse(courseId).subscribe(data=>{
-      this.userList=data;
+  findStudentsOfCourse(courseId: number) {
+    this.courseService.findStudentsOfCourse(courseId).subscribe(data => {
+      this.userList = data;
     })
   }
 
-  signOut() {
-    this.router.navigate([""]);
-  }
 
-  ngOnInit() {
+signOut() {
+  this.router.navigate([""]);
+}
 
-    flatpickr("#termList", {
-      minDate: "today",
-      mode: "multiple",
-    });
+ngOnInit() {
 
-    this.userForm = this.formBuilder.group({
-      username: ['', Validators.compose([Validators.required])],
-      password: ['', Validators.required],
-      role: ['', Validators.required]
-    });
+  flatpickr("#termList", {
+    minDate: "today",
+    mode: "multiple",
+  });
 
-    this.courseForm = this.formBuilder.group({
-      name: ['', Validators.compose([Validators.required])],
-      trainerName: ['', Validators.required],
-      termList: ['', Validators.required]
-    });
+  this.userForm = this.formBuilder.group({
+    username: ['', Validators.compose([Validators.required])],
+    password: ['', Validators.required],
+    role: ['', Validators.required]
+  });
 
-    this.findCourses();
-  }
+  this.courseForm = this.formBuilder.group({
+    name: ['', Validators.compose([Validators.required])],
+    trainerName: ['', Validators.required],
+    termList: ['', Validators.required]
+  });
+
+  this.findCourses();
+}
 }

@@ -39,7 +39,6 @@ export class UserComponent implements OnInit {
 
   getUserId() {
     this.userService.getUserInfo().subscribe(data => {
-      console.log(data.id);
       this.userId = data.id;
     })
   }

@@ -3,7 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Meta } from '@angular/platform-browser';
 import { Router } from '@angular/router';
-import {LoginService} from 'src/app/services/login.service'
+import { LoginService } from 'src/app/services/login.service'
 
 @Component({
   selector: 'app-login',
@@ -16,8 +16,8 @@ export class LoginComponent implements OnInit {
   loginForm: FormGroup;
   invalidLogin: boolean = false;
 
-  constructor(private formBuilder: FormBuilder, private router: Router, private loginService: LoginService,private meta:Meta) { 
-    this.meta.addTag({name: "viewport",content: "width=device-width, initial-scale=1, shrink-to-fit=no"})
+  constructor(private formBuilder: FormBuilder, private router: Router, private loginService: LoginService, private meta: Meta) {
+    this.meta.addTag({ name: "viewport", content: "width=device-width, initial-scale=1, shrink-to-fit=no" })
   }
 
   onSubmit() {
@@ -25,31 +25,29 @@ export class LoginComponent implements OnInit {
       return;
     }
     const body = new HttpParams()
-      .set('scope','webclient')
+      .set('scope', 'webclient')
       .set('grant_type', 'password')
       .set('username', this.loginForm.controls.username.value)
       .set('password', this.loginForm.controls.password.value);
 
-      
+
 
     this.loginService.login(body.toString()).subscribe(data => {
       window.sessionStorage.setItem('token', JSON.stringify(data));
-      console.log(window.sessionStorage.getItem('token'));
-      let jwt=window.sessionStorage.getItem('token');
+      let jwt = window.sessionStorage.getItem('token');
       let jwtData = jwt.split('.')[1];
       let decodedJwtJsonData = window.atob(jwtData);
       let decodedJwtData = JSON.parse(decodedJwtJsonData);
       let isAdmin = decodedJwtData.authorities;
 
-      console.log("AUTHORITIES: "+isAdmin);
-      if(isAdmin=='USER'){
+      if (isAdmin == 'USER') {
         this.router.navigate(["/user"]);
       }
-      else{
+      else {
         this.router.navigate(["/admin"]);
       }
     }, error => {
-        alert(error.error.error_description)
+      alert(error.error.error_description)
     });
   }
 

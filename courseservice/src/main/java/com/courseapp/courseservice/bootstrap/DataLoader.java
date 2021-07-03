@@ -25,15 +25,15 @@ public class DataLoader implements CommandLineRunner {
         Course course1 = new Course();
         course1.setName("Java 8 for Beginners");
         course1.setTrainerName("Thompson");
-        course1.getTermList().add(LocalDate.of(2020, 5, 1));
-        course1.getTermList().add(LocalDate.of(2020, 6, 21));
+        course1.getTermList().add(LocalDate.of(2020, 7, 15));
+        course1.getTermList().add(LocalDate.of(2020, 6, 30));
 
         courseService.saveCourse(course1);
 
         Course course2 = new Course();
         course2.setName("Docker for Java Developers");
         course2.setTrainerName("Walls");
-        course2.getTermList().add(LocalDate.of(2021, 5, 4));
+        course2.getTermList().add(LocalDate.of(2021, 8, 4));
 
         courseService.saveCourse(course2);
     }

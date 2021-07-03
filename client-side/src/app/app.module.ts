@@ -14,6 +14,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { Ng2SearchPipeModule } from 'ng2-search-filter';
 import { AuthService } from './auth/auth-service';
 import { AuthGuardService } from './auth/auth-guard-service';
+import { RoleGuardService } from './auth/role-guard-service';
 
 
 @NgModule({
@@ -33,7 +34,7 @@ import { AuthGuardService } from './auth/auth-guard-service';
     Ng2SearchPipeModule,
     ModalModule.forRoot()
   ],
-  providers: [LoginService,AuthGuardService,AuthService],
+  providers: [LoginService,AuthGuardService,AuthService,RoleGuardService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
