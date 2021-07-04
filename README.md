@@ -39,6 +39,21 @@ mvn spring-boot:run
  localhost:4200
  ```
  
+ ### Users starter credentials
+ 
+ #### Role: User
+ 
+ ```
+username: user
+password: user
+ ```
+ 
+ #### Role: Admin
+ 
+ ```
+ username: admin
+ password: admin
+ ```
  
  ## Microservices diagram
  
